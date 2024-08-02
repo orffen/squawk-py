@@ -1,19 +1,28 @@
 #!/usr/bin/env python3
 # squawk.py -- generate a valid squawk code for flight simulation
 
+import os
 import random
+import sys
 import urllib.request
 import wx
 
 
 class SquawkGUI(wx.Frame):
-    """Creates a GUI for the Squawk utility"""
+    """Creates a GUI for the Squawk! utility"""
     def __init__(self, parent):
         self.squawk_code = generate_squawk()
-        self.title = "Squawk"
+        self.title = "Squawk!"
         self.style = wx.CAPTION|wx.MINIMIZE_BOX|wx.CLOSE_BOX|wx.RESIZE_BORDER|wx.STAY_ON_TOP
         super(SquawkGUI, self).__init__(
             parent, title=self.title, style=self.style)
+
+        if hasattr(sys, '_MEIPASS'):
+            icon_path = os.path.join(sys._MEIPASS, "squawk.ico")
+        else:
+            icon_path = "squawk.ico"
+        icon = wx.Icon(icon_path, wx.BITMAP_TYPE_ICO)
+        self.SetIcon(icon)
 
         font = wx.SystemSettings.GetFont(wx.SYS_DEFAULT_GUI_FONT)
         font.SetPointSize(16)
