@@ -1,0 +1,15 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# pyinstaller
+build/
+dist/
+*.spec
+
+# venv files
+Include/
+Lib/
+Scripts/
+pyvenv.cfg
