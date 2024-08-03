@@ -60,6 +60,27 @@ class SquawkGUI(wx.Frame):
                                     label="TOD Calculator")
 
         tod_box_vbox1 = wx.BoxSizer(wx.VERTICAL)
+
+        st_current_altitude = wx.StaticText(panel, label="Current Altitude")
+        tod_box_vbox1.Add(st_current_altitude, flag=wx.ALIGN_CENTRE_HORIZONTAL)
+
+        self.tc_current_altitude = wx.TextCtrl(panel)
+        self.tc_current_altitude.Bind(wx.EVT_TEXT, self.update_tod)
+        tod_box_vbox1.Add(self.tc_current_altitude, flag=wx.EXPAND)
+
+        st_target_altitude = wx.StaticText(panel, label="Target Altitude")
+        tod_box_vbox1.Add(st_target_altitude, flag=wx.ALIGN_CENTRE_HORIZONTAL)
+
+        self.tc_target_altitude = wx.TextCtrl(panel)
+        self.tc_target_altitude.Bind(wx.EVT_TEXT, self.update_tod)
+        tod_box_vbox1.Add(self.tc_target_altitude, flag=wx.EXPAND)
+
+        st_distance_required = wx.StaticText(panel, label="Distance Required")
+        tod_box_vbox1.Add(st_distance_required, flag=wx.ALIGN_CENTRE_HORIZONTAL)
+
+        self.sc_distance = wx.StaticText(panel) #TODO: revisit
+        tod_box_vbox1.Add(self.sc_distance, flag=wx.EXPAND)
+
         tod_box.Add(tod_box_vbox1, proportion=1, flag=wx.EXPAND)
 
         tod_box_vbox1 = wx.BoxSizer(wx.VERTICAL)
@@ -122,7 +143,7 @@ class SquawkGUI(wx.Frame):
     def update_tod(self, event):
         event.Skip()
         focus = wx.Window.FindFocus()
-        selection = self.focus.GetSelection()
+        selection = focus.GetSelection()
         current_alt = self.tc_current_altitude.GetValue()
         target_alt = self.tc_target_altitude.GetValue()
         ground_speed = self.tc_ground_speed.GetValue()
