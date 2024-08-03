@@ -62,6 +62,7 @@ class SquawkGUI(wx.Frame):
         metar_box_hbox.Add(st_icao, flag=wx.ALIGN_CENTRE_VERTICAL)
 
         self.tc_icao = wx.TextCtrl(panel) #TODO: add size?
+        self.tc_icao.Bind(wx.EVT_TEXT, self._uppercase_tc_icao)
         metar_box_hbox.Add(self.tc_icao, proportion=1, flag=wx.LEFT|wx.RIGHT,
                            border=10)
 
@@ -99,9 +100,15 @@ class SquawkGUI(wx.Frame):
 
 
     def update_metar(self,event):
-        self.tc_icao.SetValue(self.tc_icao.GetValue().upper())
         self.tc_metar.SetValue(retrieve_metar(self.tc_icao.GetValue()))
         self.Layout()
+
+
+    def _uppercase_tc_icao(self, event):
+        event.Skip()
+        selection = self.tc_icao.GetSelection()
+        self.tc_icao.ChangeValue(self.tc_icao.GetValue().upper())
+        self.tc_icao.SetSelection(*selection)
 
 
 def squawk_OK(code: str) -> bool:
