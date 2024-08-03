@@ -13,7 +13,8 @@ class SquawkGUI(wx.Frame):
     def __init__(self, parent):
         self.squawk_code = generate_squawk()
         self.title = "Squawk!"
-        self.style = wx.CAPTION|wx.MINIMIZE_BOX|wx.CLOSE_BOX|wx.RESIZE_BORDER|wx.STAY_ON_TOP
+        self.style = wx.CAPTION|wx.MINIMIZE_BOX|wx.CLOSE_BOX|wx.RESIZE_BORDER \
+            |wx.STAY_ON_TOP
         super(SquawkGUI, self).__init__(
             parent, title=self.title, style=self.style)
 
@@ -24,19 +25,16 @@ class SquawkGUI(wx.Frame):
         icon = wx.Icon(icon_path, wx.BITMAP_TYPE_ICO)
         self.SetIcon(icon)
 
-        font = wx.SystemSettings.GetFont(wx.SYS_DEFAULT_GUI_FONT)
-        font.SetPointSize(16)
         font_fixed = wx.Font(12, wx.FONTFAMILY_TELETYPE, wx.FONTSTYLE_NORMAL,
                              wx.FONTWEIGHT_NORMAL)
         font_squawk = wx.SystemSettings.GetFont(wx.SYS_DEFAULT_GUI_FONT)
-        font_squawk.SetPointSize(18)
+        font_squawk.SetPointSize(20)
         font_squawk.SetWeight(wx.FONTWEIGHT_BOLD)
         font_warning = wx.SystemSettings.GetFont(wx.SYS_DEFAULT_GUI_FONT)
         font_warning.SetPointSize(9)
         font_warning.SetWeight(wx.FONTWEIGHT_BOLD)
 
         panel = wx.Panel(self)
-        panel.SetFont(font)
 
         vbox = wx.BoxSizer(wx.VERTICAL)
 
@@ -51,7 +49,8 @@ class SquawkGUI(wx.Frame):
 
         btn_new_squawk = wx.Button(panel, label="Get New")
         btn_new_squawk.Bind(wx.EVT_BUTTON, self.update_squawk)
-        squawk_box.Add(btn_new_squawk)
+        squawk_box.Add(btn_new_squawk, flag=wx.ALIGN_CENTRE_VERTICAL|wx.TOP,
+                       border=5)
 
         vbox.Add(squawk_box, flag=wx.ALL|wx.EXPAND, border=10)
 
@@ -60,7 +59,7 @@ class SquawkGUI(wx.Frame):
         metar_box_hbox = wx.BoxSizer(wx.HORIZONTAL)
 
         st_icao = wx.StaticText(panel, label="ICAO:")
-        metar_box_hbox.Add(st_icao, flag=wx.ALIGN_CENTER_VERTICAL)
+        metar_box_hbox.Add(st_icao, flag=wx.ALIGN_CENTRE_VERTICAL)
 
         self.tc_icao = wx.TextCtrl(panel) #TODO: add size?
         metar_box_hbox.Add(self.tc_icao, proportion=1, flag=wx.LEFT|wx.RIGHT,
@@ -68,11 +67,12 @@ class SquawkGUI(wx.Frame):
 
         btn_get_metar = wx.Button(panel, label="Refresh")
         btn_get_metar.Bind(wx.EVT_BUTTON, self.update_metar)
-        metar_box_hbox.Add(btn_get_metar)
+        metar_box_hbox.Add(btn_get_metar, flag=wx.ALIGN_CENTRE_VERTICAL)
 
         metar_box.Add(metar_box_hbox, flag=wx.EXPAND|wx.BOTTOM, border=5)
 
-        self.tc_metar = wx.TextCtrl(panel, size=wx.Size(300, 100),
+        self.tc_metar = wx.TextCtrl(panel,
+                                    size=panel.FromDIP(wx.Size(300, 100)),
                                     style=wx.TE_MULTILINE|wx.TE_READONLY)
         self.tc_metar.SetFont(font_fixed)
         metar_box.Add(self.tc_metar, proportion=1, flag=wx.EXPAND)
