@@ -84,12 +84,12 @@ class SquawkGUI(wx.Frame):
                                          style=wx.ALIGN_CENTRE_HORIZONTAL| \
                                             wx.ST_NO_AUTORESIZE)
         self.st_distance.SetFont(self.st_distance.GetFont().Bold())
-        tod_box_vbox1.Add(self.st_distance, proportion=1, flag=wx.EXPAND)
+        tod_box_vbox1.Add(self.st_distance, flag=wx.EXPAND)
 
-        tod_box.Add(tod_box_vbox1, proportion=1, flag=wx.EXPAND)
+        tod_box.Add(tod_box_vbox1, flag=wx.EXPAND)
 
         tod_box_vbox1 = wx.BoxSizer(wx.VERTICAL)
-        tod_box.Add(tod_box_vbox1, proportion=1, flag=wx.EXPAND)
+        tod_box.Add(tod_box_vbox1, flag=wx.EXPAND)
 
         tod_box_vbox2 = wx.BoxSizer(wx.VERTICAL)
 
@@ -107,14 +107,14 @@ class SquawkGUI(wx.Frame):
         self.st_fpm = wx.StaticText(panel, style=wx.ALIGN_CENTRE_HORIZONTAL| \
                                     wx.ST_NO_AUTORESIZE)
         self.st_fpm.SetFont(self.st_fpm.GetFont().Bold())
-        tod_box_vbox2.Add(self.st_fpm, proportion=1, flag=wx.EXPAND)
+        tod_box_vbox2.Add(self.st_fpm, flag=wx.EXPAND)
 
-        tod_box.Add(tod_box_vbox2, proportion=1, flag=wx.EXPAND)
+        tod_box.Add(tod_box_vbox2, flag=wx.EXPAND)
 
-        hbox1.Add(tod_box, proportion=1, flag=wx.EXPAND|wx.LEFT, border=10)
+        hbox1.Add(tod_box, flag=wx.EXPAND|wx.LEFT, border=10)
         # end TOD box ----------------------------------------------------------
 
-        vbox.Add(hbox1, proportion=1, flag=wx.EXPAND|wx.ALL, border=10)
+        vbox.Add(hbox1, flag=wx.EXPAND|wx.ALL, border=10)
 
         # metar box ------------------------------------------------------------
         metar_box = wx.StaticBoxSizer(wx.VERTICAL, panel, label="METAR/TAF")
