@@ -115,8 +115,9 @@ class SquawkGUI(wx.Frame):
 def squawk_OK(code: str) -> bool:
     RESERVED_CODES = [
         21, 22, 25, 33, 500, 600, 700, 1200, 5061, 5062, 7001, 7004, 7615,
-        list(range(41, 58)), list(range(100, 701)), list(range(1200, 1278)),
-        list(range(4400, 4478)), list(range(7501, 7578))
+        *list(range(41, 58)), *list(range(100, 701)),
+        *list(range(1200, 1278)), *list(range(4400, 4478)),
+        *list(range(7501, 7578))
     ]
     code_as_int = int(code)
     if code[-2:] == "00": # all codes ending in 00 are reserved
