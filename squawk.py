@@ -25,7 +25,7 @@ class SquawkGUI(wx.Frame):
         icon = wx.Icon(icon_path, wx.BITMAP_TYPE_ICO)
         self.SetIcon(icon)
 
-        font_fixed = wx.Font(12, wx.FONTFAMILY_TELETYPE, wx.FONTSTYLE_NORMAL,
+        font_fixed = wx.Font(10, wx.FONTFAMILY_TELETYPE, wx.FONTSTYLE_NORMAL,
                              wx.FONTWEIGHT_NORMAL)
         font_squawk = wx.SystemSettings.GetFont(wx.SYS_DEFAULT_GUI_FONT)
         font_squawk.SetPointSize(20)
@@ -61,8 +61,9 @@ class SquawkGUI(wx.Frame):
         st_icao = wx.StaticText(panel, label="ICAO:")
         metar_box_hbox.Add(st_icao, flag=wx.ALIGN_CENTRE_VERTICAL)
 
-        self.tc_icao = wx.TextCtrl(panel) #TODO: add size?
+        self.tc_icao = wx.TextCtrl(panel, style=wx.TE_PROCESS_ENTER)
         self.tc_icao.Bind(wx.EVT_TEXT, self._uppercase_tc_icao)
+        self.tc_icao.Bind(wx.EVT_TEXT_ENTER, self.update_metar)
         metar_box_hbox.Add(self.tc_icao, proportion=1, flag=wx.LEFT|wx.RIGHT,
                            border=10)
 
