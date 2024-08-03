@@ -35,25 +35,42 @@ class SquawkGUI(wx.Frame):
         font_warning.SetWeight(wx.FONTWEIGHT_BOLD)
 
         panel = wx.Panel(self)
+        vbox = wx.BoxSizer(wx.VERTICAL) # main container
 
-        vbox = wx.BoxSizer(wx.VERTICAL)
+        hbox1 = wx.BoxSizer(wx.HORIZONTAL) # for squawk box and TOD box
 
-        squawk_box = wx.StaticBoxSizer(wx.HORIZONTAL, panel,
+        # squawk box -----------------------------------------------------------
+        squawk_box = wx.StaticBoxSizer(wx.VERTICAL, panel,
                                        label="Squawk Code")
 
-        self.st_squawk = wx.StaticText(panel, label=str(self.squawk_code),
-                                       style=wx.ALIGN_CENTRE|wx.CENTRE)
+        self.st_squawk = wx.StaticText(panel, label=str(self.squawk_code))
         self.st_squawk.SetFont(font_squawk)
-        squawk_box.Add(self.st_squawk, proportion=1,
-                       flag=wx.EXPAND)
+        squawk_box.Add(self.st_squawk,
+                       flag=wx.ALIGN_CENTRE_HORIZONTAL|wx.ALL, border=10)
 
         btn_new_squawk = wx.Button(panel, label="Get New")
         btn_new_squawk.Bind(wx.EVT_BUTTON, self.update_squawk)
-        squawk_box.Add(btn_new_squawk, flag=wx.ALIGN_CENTRE_VERTICAL|wx.TOP,
-                       border=5)
+        squawk_box.Add(btn_new_squawk, proportion=1, flag=wx.EXPAND)
 
-        vbox.Add(squawk_box, flag=wx.ALL|wx.EXPAND, border=10)
+        hbox1.Add(squawk_box, flag=wx.EXPAND)
+        # end squawk box -------------------------------------------------------
 
+        # TOD box --------------------------------------------------------------
+        tod_box = wx.StaticBoxSizer(wx.HORIZONTAL, panel,
+                                    label="TOD Calculator")
+
+        tod_box_vbox1 = wx.BoxSizer(wx.VERTICAL)
+        tod_box.Add(tod_box_vbox1, proportion=1, flag=wx.EXPAND)
+
+        tod_box_vbox1 = wx.BoxSizer(wx.VERTICAL)
+        tod_box.Add(tod_box_vbox1, proportion=1, flag=wx.EXPAND)
+
+        hbox1.Add(tod_box, proportion=1, flag=wx.EXPAND|wx.LEFT, border=10)
+        # end TOD box ----------------------------------------------------------
+
+        vbox.Add(hbox1, proportion=1, flag=wx.EXPAND|wx.ALL, border=10)
+
+        # metar box ------------------------------------------------------------
         metar_box = wx.StaticBoxSizer(wx.VERTICAL, panel, label="METAR/TAF")
 
         metar_box_hbox = wx.BoxSizer(wx.HORIZONTAL)
@@ -81,7 +98,9 @@ class SquawkGUI(wx.Frame):
 
         vbox.Add(metar_box, proportion=1, flag=wx.EXPAND|wx.LEFT|wx.RIGHT,
                  border=10)
+        # end metar box --------------------------------------------------------
 
+        # warning text
         st_warning = wx.StaticText(panel,
                                    label="FOR FLIGHT SIMULATION USE ONLY")
         st_warning.SetFont(font_warning)
