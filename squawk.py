@@ -80,9 +80,11 @@ class SquawkGUI(wx.Frame):
         st_distance_required = wx.StaticText(panel, label="Distance Required")
         tod_box_vbox1.Add(st_distance_required, flag=wx.ALIGN_CENTRE_HORIZONTAL)
 
-        self.st_distance = wx.StaticText(panel)
+        self.st_distance = wx.StaticText(panel,
+                                         style=wx.ALIGN_CENTRE_HORIZONTAL| \
+                                            wx.ST_NO_AUTORESIZE)
         self.st_distance.SetFont(self.st_distance.GetFont().Bold())
-        tod_box_vbox1.Add(self.st_distance, flag=wx.ALIGN_CENTRE_HORIZONTAL)
+        tod_box_vbox1.Add(self.st_distance, proportion=1, flag=wx.EXPAND)
 
         tod_box.Add(tod_box_vbox1, proportion=1, flag=wx.EXPAND)
 
@@ -102,9 +104,10 @@ class SquawkGUI(wx.Frame):
         self.st_descent_rate = wx.StaticText(panel, label="Descent Rate")
         tod_box_vbox2.Add(self.st_descent_rate, flag=wx.ALIGN_CENTRE_HORIZONTAL)
 
-        self.st_fpm = wx.StaticText(panel)
+        self.st_fpm = wx.StaticText(panel, style=wx.ALIGN_CENTRE_HORIZONTAL| \
+                                    wx.ST_NO_AUTORESIZE)
         self.st_fpm.SetFont(self.st_fpm.GetFont().Bold())
-        tod_box_vbox2.Add(self.st_fpm, flag=wx.ALIGN_CENTRE_HORIZONTAL)
+        tod_box_vbox2.Add(self.st_fpm, proportion=1, flag=wx.EXPAND)
 
         tod_box.Add(tod_box_vbox2, proportion=1, flag=wx.EXPAND)
 
@@ -172,9 +175,9 @@ class SquawkGUI(wx.Frame):
         except:
             current_alt = 0
             target_alt = 0
-        if current_alt > 0 and target_alt > 0:
-            self.st_distance.SetLabel(
-                str(tod_calc_distance(current_alt, target_alt)) + " nm")
+        distance = tod_calc_distance(current_alt, target_alt)
+        if distance > 0:
+            self.st_distance.SetLabel(f"{distance:.1f} nm")
         else:
             self.st_distance.SetLabel('')
         focus.SetSelection(*selection)
@@ -183,18 +186,16 @@ class SquawkGUI(wx.Frame):
 
     def update_tod_rate(self, event):
         event.Skip()
-        focus = wx.Window.FindFocus()
-        selection = focus.GetSelection()
+        selection = self.tc_ground_speed.GetSelection()
         try:
             ground_speed = int(self.tc_ground_speed.GetValue())
-        except ValueError:
+        except:
             ground_speed = 0
         if ground_speed > 0:
-            self.st_fpm.SetLabel(
-                str(tod_calc_rate(ground_speed)) + " fpm")
+            self.st_fpm.SetLabel(str(tod_calc_rate(ground_speed)) + " fpm")
         else:
             self.st_fpm.SetLabel('')
-        focus.SetSelection(*selection)
+        self.tc_ground_speed.SetSelection(*selection)
         self.Layout()
 
 
