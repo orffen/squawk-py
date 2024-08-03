@@ -112,12 +112,21 @@ class SquawkGUI(wx.Frame):
         self.tc_icao.SetSelection(*selection)
 
 
+def generate_squawk() -> str:
+    code = "1200"
+    while not squawk_OK(code):
+        code = str(random.randint(0, 7))
+        code += str(random.randint(0, 7))
+        code += str(random.randint(0, 7))
+        code += str(random.randint(0, 7))
+    return code
+
+
 def squawk_OK(code: str) -> bool:
     RESERVED_CODES = [
         21, 22, 25, 33, 500, 600, 700, 1200, 5061, 5062, 7001, 7004, 7615,
-        *list(range(41, 58)), *list(range(100, 701)),
-        *list(range(1200, 1278)), *list(range(4400, 4478)),
-        *list(range(7501, 7578))
+        *list(range(41, 58)), *list(range(100, 701)), *list(range(1200, 1278)),
+        *list(range(4400, 4478)), *list(range(7501, 7578))
     ]
     code_as_int = int(code)
     if code[-2:] == "00": # all codes ending in 00 are reserved
@@ -129,14 +138,15 @@ def squawk_OK(code: str) -> bool:
     return True
 
 
-def generate_squawk() -> str:
-    code = "1200"
-    while not squawk_OK(code):
-        code = str(random.randint(0, 7))
-        code += str(random.randint(0, 7))
-        code += str(random.randint(0, 7))
-        code += str(random.randint(0, 7))
-    return code
+def tod_calc_distance(current: int, target: int) -> int:
+    # work with both '000s of feet or FLs
+    current = current if current < 1000 else current / 1000
+    target = target if target < 1000 else target / 1000
+    return (current - target) * 3
+
+
+def tod_calc_rate(ground_speed: int) -> int:
+    return ground_speed * 5
 
 
 def retrieve_metar(icao: str) -> str:
