@@ -100,6 +100,21 @@ class SquawkGUI(wx.Frame):
         self.Layout()
 
 
+    def update_tod(self, event):
+        event.Skip()
+        focus = wx.Window.FindFocus()
+        selection = self.focus.GetSelection()
+        current_alt = self.tc_current_altitude.GetValue()
+        target_alt = self.tc_target_altitude.GetValue()
+        ground_speed = self.tc_ground_speed.GetValue()
+        if current_alt > 0 and target_alt > 0:
+            self.st_distance.ChangeValue(tod_calc_distance(current_alt,
+                                                           target_alt))
+        if ground_speed > 0:
+            self.tc_descent_rate.SetValue(tod_calc_rate(ground_speed))
+        focus.SetSelection(*selection)
+
+
     def update_metar(self,event):
         self.tc_metar.SetValue(retrieve_metar(self.tc_icao.GetValue()))
         self.Layout()
