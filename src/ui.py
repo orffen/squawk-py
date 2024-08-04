@@ -176,48 +176,27 @@ class SquawkGUI(wx.Frame):
         self.Layout()
 
 
-    def _update_tod_rate(self, event):
-        event.Skip()
-        focus = wx.Window.FindFocus()
-        selection = focus.GetSelection()
-        try:
-            angle = int(self.tc_descent_angle.GetValue())
-            ground_speed = int(self.tc_ground_speed.GetValue())
-        except:
-            angle = 0
-            ground_speed = 0
-        fpm = tod_calc_rate(ground_speed, angle)
-        if fpm > 0:
-            self.st_fpm.SetLabel(
-                f"{tod_calc_rate(ground_speed, angle):.0f} fpm")
-        else:
-            self.st_fpm.SetLabel('')
-        focus.SetSelection(*selection)
-        self.Layout()
-
-
     def update_tod(self, event):
         event.Skip()
         focus = wx.Window.FindFocus()
         selection = focus.GetSelection()
-        fields = {
+        tod_inputs = {
             "angle": self.tc_descent_angle.GetValue(),
             "ground_speed": self.tc_ground_speed.GetValue(),
             "current_alt": self.tc_current_altitude.GetValue(),
             "target_alt": self.tc_target_altitude.GetValue()
         }
-        for k, v in fields.items():
+        for k, v in tod_inputs.items():
             try:
-                fields[k] = int(v)
+                tod_inputs[k] = int(v)
             except:
-                fields[k] = 0
-        distance = tod_calc_distance(fields["current_alt"],
-                                     fields["target_alt"],
-                                     fields["angle"])
+                tod_inputs[k] = 0
+        distance = tod_calc_distance(tod_inputs["current_alt"],
+                                     tod_inputs["target_alt"],
+                                     tod_inputs["angle"])
+        fpm = tod_calc_rate(tod_inputs["ground_speed"], tod_inputs["angle"])
         self.st_distance.SetLabel(f"{distance:.1f} nm" if distance > 0 else "")
-
-        self._update_tod_rate(event)
-
+        self.st_fpm.SetLabel(f"{fpm:.0f} fpm" if fpm > 0 else "")
         focus.SetSelection(*selection)
         self.Layout()
 
