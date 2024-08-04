@@ -29,6 +29,20 @@ def is_valid_squawk(code: str) -> bool:
     )
 
 
+def retrieve_metar(icao: str) -> str:
+    """
+    Retrieve the current METAR/TAF information from a given set of ICAO codes.
+
+    Can accept a list of codes separated by commas (e.g. "LOWI,EDDF,KJFK").
+    """
+    API_URL = "https://aviationweather.gov/api/data/metar?taf=true&ids="
+    with urllib.request.urlopen(API_URL + icao) as response:
+        if (response.status != 200):
+            return "Error retrieving METAR, status code " + response.status
+        metar = response.read().decode("utf-8")
+        return metar if metar else f"NO METAR FOR {icao}"
+
+
 def tod_calc_distance(current: int, target: int, angle: float=3) -> float:
     """
     Calculate the distance required for a given descent angle from a current
@@ -51,16 +65,3 @@ def tod_calc_rate(ground_speed: int, angle: float=3) -> float:
     if ground_speed < 0:
         return 0
     return ground_speed * math.tan(math.radians(angle)) * 60
-
-
-def retrieve_metar(icao: str) -> str:
-    """
-    Retrieve the current METAR/TAF information from a given set of ICAO codes.
-
-    Can accept a list of codes separated by commas (e.g. "LOWI,EDDF,").
-    """
-    API_URL = "https://aviationweather.gov/api/data/metar?taf=true&ids="
-    with urllib.request.urlopen(API_URL + icao) as response:
-        if (response.status != 200):
-            return "Error retrieving METAR, status code " + response.status
-        return response.read().decode("utf-8")
