@@ -15,19 +15,17 @@ def is_valid_squawk(code: str) -> bool:
     Checks if a squawk code is valid by comparing it to a list of reserved
     codes.
     """
-    RESERVED_CODES = [
+    RESERVED_CODES = {
         21, 22, 25, 33, 500, 600, 700, 1200, 5061, 5062, 7001, 7004, 7615,
         *list(range(41, 58)), *list(range(100, 701)), *list(range(1200, 1278)),
         *list(range(4400, 4478)), *list(range(7501, 7578))
-    ]
+    }
     code_as_int = int(code)
-    if code[-2:] == "00": # all codes ending in 00 are reserved
-        return False
-    if not (0 < code_as_int <= 7777): # range check
-        return False
-    if code_as_int in RESERVED_CODES:
-        return False
-    return True
+    return not (
+       not (0 < code_as_int <= 7777) or # range check
+       code[-2:] == "00" or             # all codes ending in 00 are reserved
+       code_as_int in RESERVED_CODES
+    )
 
 
 def tod_calc_distance(current: int, target: int) -> int:
