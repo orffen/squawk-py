@@ -64,7 +64,6 @@ class SquawkGUI(wx.Frame):
 
         self.tc_descent_angle = wx.TextCtrl(panel, style=wx.TE_CENTRE)
         self.tc_descent_angle.SetValue("3")
-        self.tc_descent_angle.Disable()
         self.tc_descent_angle.Bind(wx.EVT_TEXT, self.update_tod)
         tod_rate_box.Add(self.tc_descent_angle,
                           flag=wx.EXPAND|wx.LEFT|wx.BOTTOM|wx.RIGHT, border=5)
