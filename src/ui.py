@@ -203,7 +203,7 @@ class SquawkGUI(wx.Frame):
         except:
             ground_speed = 0
         if ground_speed > 0:
-            self.st_fpm.SetLabel(str(tod_calc_rate(ground_speed)) + " fpm")
+            self.st_fpm.SetLabel(f"{tod_calc_rate(ground_speed):.0f} fpm")
         else:
             self.st_fpm.SetLabel('')
         self.tc_ground_speed.SetSelection(*selection)
