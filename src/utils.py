@@ -1,3 +1,4 @@
+import math
 import random
 import urllib.request
 
@@ -28,27 +29,28 @@ def is_valid_squawk(code: str) -> bool:
     )
 
 
-def tod_calc_distance(current: int, target: int) -> int:
+def tod_calc_distance(current: int, target: int, angle: float=3) -> float:
     """
-    Calculate the distance required for a 3 degree descent from a current
+    Calculate the distance required for a given descent angle from a current
     to a target altitude.
     """
+    _ft_in_nm = 6076
     # work with both '000s of feet or FLs
-    current = current if current < 1000 else current / 1000
-    target = target if target < 1000 else target / 1000
+    current = current if current > 1000 else current * 1000
+    target = target if target > 1000 else target * 1000
     if target >= current:
         return 0
-    return (current - target) * 3
+    return (current - target) / (math.tan(math.radians(angle)) * _ft_in_nm)
 
 
-def tod_calc_rate(ground_speed: int) -> int:
+def tod_calc_rate(ground_speed: int, angle: float=3) -> float:
     """
     Calculate the required descent rate in feet-per-minute for a 3 degree
     descent.
     """
     if ground_speed < 0:
         return 0
-    return ground_speed * 5
+    return ground_speed * math.tan(math.radians(angle)) * 60
 
 
 def retrieve_metar(icao: str) -> str:
