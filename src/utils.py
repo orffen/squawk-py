@@ -6,10 +6,7 @@ def generate_squawk() -> str:
     """Generates a valid squawk code, excluding reserved codes."""
     code = "1200"
     while not is_valid_squawk(code):
-        code = str(random.randint(0, 7))
-        code += str(random.randint(0, 7))
-        code += str(random.randint(0, 7))
-        code += str(random.randint(0, 7))
+        code = "".join(str(random.randint(0, 7)) for _ in range(4))
     return code
 
 
