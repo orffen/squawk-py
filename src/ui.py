@@ -188,7 +188,7 @@ class SquawkGUI(wx.Frame):
         }
         for k, v in tod_inputs.items():
             try:
-                tod_inputs[k] = int(v)
+                tod_inputs[k] = float(v) if k == "angle" else int(v)
             except:
                 tod_inputs[k] = 0
         distance = tod_calc_distance(tod_inputs["current_alt"],
