@@ -53,6 +53,7 @@ class SquawkGUI(wx.Frame):
         # end squawk box -------------------------------------------------------
 
         # TOD box --------------------------------------------------------------
+        # TOD box > distance ---------------------------------------------------
         tod_box = wx.StaticBoxSizer(wx.HORIZONTAL, panel,
                                     label="TOD Calculator")
 
@@ -84,8 +85,9 @@ class SquawkGUI(wx.Frame):
         tod_box_vbox1.Add(self.st_distance, flag=wx.EXPAND)
 
         tod_box.Add(tod_box_vbox1, flag=wx.EXPAND)
+        # end TOD box > distance -----------------------------------------------
 
-        tod_box_vbox1 = wx.BoxSizer(wx.VERTICAL)
+        # TOD box > rate -------------------------------------------------------
         tod_box.Add(tod_box_vbox1, flag=wx.EXPAND)
 
         tod_box_vbox2 = wx.BoxSizer(wx.VERTICAL)
@@ -109,6 +111,7 @@ class SquawkGUI(wx.Frame):
         tod_box.Add(tod_box_vbox2, flag=wx.EXPAND)
 
         hbox1.Add(tod_box, flag=wx.EXPAND|wx.LEFT, border=10)
+        # end TOD box > rate ---------------------------------------------------
         # end TOD box ----------------------------------------------------------
 
         vbox.Add(hbox1, flag=wx.EXPAND|wx.ALL, border=10)
