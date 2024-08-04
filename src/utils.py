@@ -45,7 +45,7 @@ def tod_calc_distance(current: int, target: int, angle: float=3) -> float:
 
 def tod_calc_rate(ground_speed: int, angle: float=3) -> float:
     """
-    Calculate the required descent rate in feet-per-minute for a 3 degree
+    Calculate the required descent rate in feet-per-minute for a given angle of
     descent.
     """
     if ground_speed < 0:
