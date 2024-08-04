@@ -69,7 +69,7 @@ class SquawkGUI(wx.Frame):
         tod_rate_box.Add(self.tc_descent_angle,
                           flag=wx.EXPAND|wx.LEFT|wx.BOTTOM|wx.RIGHT, border=5)
 
-        st_ground_speed = wx.StaticText(panel, label="Ground Speed")
+        st_ground_speed = wx.StaticText(panel, label="Ground Speed (kts)")
         tod_rate_box.Add(st_ground_speed, flag=wx.ALIGN_CENTRE_HORIZONTAL)
 
         self.tc_ground_speed = wx.TextCtrl(panel, style=wx.TE_CENTRE)
