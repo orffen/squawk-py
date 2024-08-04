@@ -8,23 +8,23 @@ information from the real world (your simulator's weather may differ).
 
 ## Building
 
-To build Squawk!, it is recommended to setup a Python virtual environment:
+To build Squawk!, after cloning the repository to a local folder, set up a
+virtual environment in that folder:
 
 ```
-python -m venv squawk
+python -m venv .
 ```
 
 After activating the environment, install the dependencies from PIP:
 
 ```
-pip install wxpython pyinstaller
+pip install -r requirements.txt
 ```
 
-Then, after pulling in the `squawk.py` and `squawk.ico` files, build Squawk!
-by running:
+Then, build Squawk! by running:
 
 ```
-pyinstaller --onefile --noconsole --icon=squawk.ico --add-data "squawk.ico:." squawk.py
+pyinstaller --clean --noconfirm squawk.spec
 ```
 
 There will be an executable file created in the `dist` folder.
