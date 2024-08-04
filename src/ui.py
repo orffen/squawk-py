@@ -88,8 +88,6 @@ class SquawkGUI(wx.Frame):
         # end TOD box > distance -----------------------------------------------
 
         # TOD box > rate -------------------------------------------------------
-        tod_box.Add(tod_box_vbox1, flag=wx.EXPAND)
-
         tod_box_vbox2 = wx.BoxSizer(wx.VERTICAL)
 
         st_ground_speed = wx.StaticText(panel, label="Ground Speed")
