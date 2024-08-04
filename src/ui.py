@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 import wx
 
@@ -169,6 +170,13 @@ class SquawkGUI(wx.Frame):
         self.CentreOnScreen()
 
 
+    def update_metar(self, event):
+        icao = re.sub(r"[ ,]+", ",", self.tc_icao.GetValue())
+        self.tc_icao.SetValue(icao)
+        self.tc_metar.SetValue(retrieve_metar(icao))
+        self.Layout()
+
+
     def update_squawk(self, event):
         self.squawk_code = generate_squawk()
         self.st_squawk.SetLabel(self.squawk_code)
@@ -197,11 +205,6 @@ class SquawkGUI(wx.Frame):
         self.st_distance.SetLabel(f"{distance:.1f} nm" if distance > 0 else "")
         self.st_fpm.SetLabel(f"{fpm:.0f} fpm" if fpm > 0 else "")
         focus.SetSelection(*selection)
-        self.Layout()
-
-
-    def update_metar(self,event):
-        self.tc_metar.SetValue(retrieve_metar(self.tc_icao.GetValue()))
         self.Layout()
 
 
