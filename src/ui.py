@@ -56,6 +56,28 @@ class SquawkGUI(wx.Frame):
         tod_box = wx.StaticBoxSizer(wx.HORIZONTAL, panel,
                                     label="TOD Calculator")
 
+        # TOD box > rate -------------------------------------------------------
+        tod_rate_box = wx.BoxSizer(wx.VERTICAL)
+
+        st_ground_speed = wx.StaticText(panel, label="Ground Speed")
+        tod_rate_box.Add(st_ground_speed, flag=wx.ALIGN_CENTRE_HORIZONTAL)
+
+        self.tc_ground_speed = wx.TextCtrl(panel, style=wx.TE_CENTRE)
+        self.tc_ground_speed.Bind(wx.EVT_TEXT, self.update_tod_rate)
+        tod_rate_box.Add(self.tc_ground_speed,
+                          flag=wx.EXPAND|wx.LEFT|wx.BOTTOM|wx.RIGHT, border=5)
+
+        self.st_descent_rate = wx.StaticText(panel, label="Descent Rate")
+        tod_rate_box.Add(self.st_descent_rate, flag=wx.ALIGN_CENTRE_HORIZONTAL)
+
+        self.st_fpm = wx.StaticText(panel, style=wx.ALIGN_CENTRE_HORIZONTAL| \
+                                    wx.ST_NO_AUTORESIZE)
+        self.st_fpm.SetFont(self.st_fpm.GetFont().Bold())
+        tod_rate_box.Add(self.st_fpm, flag=wx.EXPAND)
+
+        tod_box.Add(tod_rate_box, flag=wx.EXPAND)
+        # end TOD box > rate ---------------------------------------------------
+
         # TOD box > distance ---------------------------------------------------
         tod_distance_box = wx.BoxSizer(wx.VERTICAL)
 
@@ -89,28 +111,6 @@ class SquawkGUI(wx.Frame):
 
         tod_box.Add(tod_distance_box, flag=wx.EXPAND)
         # end TOD box > distance -----------------------------------------------
-
-        # TOD box > rate -------------------------------------------------------
-        tod_rate_box = wx.BoxSizer(wx.VERTICAL)
-
-        st_ground_speed = wx.StaticText(panel, label="Ground Speed")
-        tod_rate_box.Add(st_ground_speed, flag=wx.ALIGN_CENTRE_HORIZONTAL)
-
-        self.tc_ground_speed = wx.TextCtrl(panel, style=wx.TE_CENTRE)
-        self.tc_ground_speed.Bind(wx.EVT_TEXT, self.update_tod_rate)
-        tod_rate_box.Add(self.tc_ground_speed,
-                          flag=wx.EXPAND|wx.LEFT|wx.BOTTOM|wx.RIGHT, border=5)
-
-        self.st_descent_rate = wx.StaticText(panel, label="Descent Rate")
-        tod_rate_box.Add(self.st_descent_rate, flag=wx.ALIGN_CENTRE_HORIZONTAL)
-
-        self.st_fpm = wx.StaticText(panel, style=wx.ALIGN_CENTRE_HORIZONTAL| \
-                                    wx.ST_NO_AUTORESIZE)
-        self.st_fpm.SetFont(self.st_fpm.GetFont().Bold())
-        tod_rate_box.Add(self.st_fpm, flag=wx.EXPAND)
-
-        tod_box.Add(tod_rate_box, flag=wx.EXPAND)
-        # end TOD box > rate ---------------------------------------------------
 
         hbox1.Add(tod_box, flag=wx.EXPAND|wx.LEFT, border=10)
         # end TOD box ----------------------------------------------------------
