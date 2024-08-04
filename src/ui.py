@@ -65,7 +65,7 @@ class SquawkGUI(wx.Frame):
         self.tc_descent_angle = wx.TextCtrl(panel, style=wx.TE_CENTRE)
         self.tc_descent_angle.SetValue("3")
         self.tc_descent_angle.Disable()
-        self.tc_descent_angle.Bind(wx.EVT_TEXT, self.update_tod_rate)
+        self.tc_descent_angle.Bind(wx.EVT_TEXT, self.update_tod)
         tod_rate_box.Add(self.tc_descent_angle,
                           flag=wx.EXPAND|wx.LEFT|wx.BOTTOM|wx.RIGHT, border=5)
 
@@ -73,7 +73,7 @@ class SquawkGUI(wx.Frame):
         tod_rate_box.Add(st_ground_speed, flag=wx.ALIGN_CENTRE_HORIZONTAL)
 
         self.tc_ground_speed = wx.TextCtrl(panel, style=wx.TE_CENTRE)
-        self.tc_ground_speed.Bind(wx.EVT_TEXT, self.update_tod_rate)
+        self.tc_ground_speed.Bind(wx.EVT_TEXT, self.update_tod)
         tod_rate_box.Add(self.tc_ground_speed,
                           flag=wx.EXPAND|wx.LEFT|wx.BOTTOM|wx.RIGHT, border=5)
 
@@ -96,7 +96,7 @@ class SquawkGUI(wx.Frame):
                              flag=wx.ALIGN_CENTRE_HORIZONTAL)
 
         self.tc_current_altitude = wx.TextCtrl(panel, style=wx.TE_CENTRE)
-        self.tc_current_altitude.Bind(wx.EVT_TEXT, self.update_tod_distance)
+        self.tc_current_altitude.Bind(wx.EVT_TEXT, self.update_tod)
         tod_distance_box.Add(self.tc_current_altitude,
                           flag=wx.EXPAND|wx.LEFT|wx.BOTTOM|wx.RIGHT, border=5)
 
@@ -105,7 +105,7 @@ class SquawkGUI(wx.Frame):
                              flag=wx.ALIGN_CENTRE_HORIZONTAL)
 
         self.tc_target_altitude = wx.TextCtrl(panel, style=wx.TE_CENTRE)
-        self.tc_target_altitude.Bind(wx.EVT_TEXT, self.update_tod_distance)
+        self.tc_target_altitude.Bind(wx.EVT_TEXT, self.update_tod)
         tod_distance_box.Add(self.tc_target_altitude,
                           flag=wx.EXPAND|wx.LEFT|wx.BOTTOM|wx.RIGHT, border=5)
 
@@ -176,17 +176,19 @@ class SquawkGUI(wx.Frame):
         self.Layout()
 
 
-    def update_tod_distance(self, event):
+    def _update_tod_distance(self, event):
         event.Skip()
         focus = wx.Window.FindFocus()
         selection = focus.GetSelection()
         try:
+            angle = int(self.tc_descent_angle.GetValue())
             current_alt = int(self.tc_current_altitude.GetValue())
             target_alt = int(self.tc_target_altitude.GetValue())
         except:
+            angle = 0
             current_alt = 0
             target_alt = 0
-        distance = tod_calc_distance(current_alt, target_alt)
+        distance = tod_calc_distance(current_alt, target_alt, angle)
         if distance > 0:
             self.st_distance.SetLabel(f"{distance:.1f} nm")
         else:
@@ -195,19 +197,29 @@ class SquawkGUI(wx.Frame):
         self.Layout()
 
 
-    def update_tod_rate(self, event):
+    def _update_tod_rate(self, event):
         event.Skip()
-        selection = self.tc_ground_speed.GetSelection()
+        focus = wx.Window.FindFocus()
+        selection = focus.GetSelection()
         try:
+            angle = int(self.tc_descent_angle.GetValue())
             ground_speed = int(self.tc_ground_speed.GetValue())
         except:
+            angle = 0
             ground_speed = 0
-        if ground_speed > 0:
-            self.st_fpm.SetLabel(f"{tod_calc_rate(ground_speed):.0f} fpm")
+        fpm = tod_calc_rate(ground_speed, angle)
+        if fpm > 0:
+            self.st_fpm.SetLabel(
+                f"{tod_calc_rate(ground_speed, angle):.0f} fpm")
         else:
             self.st_fpm.SetLabel('')
-        self.tc_ground_speed.SetSelection(*selection)
+        focus.SetSelection(*selection)
         self.Layout()
+
+
+    def update_tod(self, event):
+        self._update_tod_distance(event)
+        self._update_tod_rate(event)
 
 
     def update_metar(self,event):
