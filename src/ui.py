@@ -53,63 +53,66 @@ class SquawkGUI(wx.Frame):
         # end squawk box -------------------------------------------------------
 
         # TOD box --------------------------------------------------------------
-        # TOD box > distance ---------------------------------------------------
         tod_box = wx.StaticBoxSizer(wx.HORIZONTAL, panel,
                                     label="TOD Calculator")
 
-        tod_box_vbox1 = wx.BoxSizer(wx.VERTICAL)
+        # TOD box > distance ---------------------------------------------------
+        tod_distance_box = wx.BoxSizer(wx.VERTICAL)
 
         st_current_altitude = wx.StaticText(panel, label="Current Altitude")
-        tod_box_vbox1.Add(st_current_altitude, flag=wx.ALIGN_CENTRE_HORIZONTAL)
+        tod_distance_box.Add(st_current_altitude,
+                             flag=wx.ALIGN_CENTRE_HORIZONTAL)
 
         self.tc_current_altitude = wx.TextCtrl(panel, style=wx.TE_CENTRE)
         self.tc_current_altitude.Bind(wx.EVT_TEXT, self.update_tod_distance)
-        tod_box_vbox1.Add(self.tc_current_altitude,
+        tod_distance_box.Add(self.tc_current_altitude,
                           flag=wx.EXPAND|wx.LEFT|wx.BOTTOM|wx.RIGHT, border=5)
 
         st_target_altitude = wx.StaticText(panel, label="Target Altitude")
-        tod_box_vbox1.Add(st_target_altitude, flag=wx.ALIGN_CENTRE_HORIZONTAL)
+        tod_distance_box.Add(st_target_altitude,
+                             flag=wx.ALIGN_CENTRE_HORIZONTAL)
 
         self.tc_target_altitude = wx.TextCtrl(panel, style=wx.TE_CENTRE)
         self.tc_target_altitude.Bind(wx.EVT_TEXT, self.update_tod_distance)
-        tod_box_vbox1.Add(self.tc_target_altitude,
+        tod_distance_box.Add(self.tc_target_altitude,
                           flag=wx.EXPAND|wx.LEFT|wx.BOTTOM|wx.RIGHT, border=5)
 
         st_distance_required = wx.StaticText(panel, label="Distance Required")
-        tod_box_vbox1.Add(st_distance_required, flag=wx.ALIGN_CENTRE_HORIZONTAL)
+        tod_distance_box.Add(st_distance_required,
+                             flag=wx.ALIGN_CENTRE_HORIZONTAL)
 
         self.st_distance = wx.StaticText(panel,
                                          style=wx.ALIGN_CENTRE_HORIZONTAL| \
                                             wx.ST_NO_AUTORESIZE)
         self.st_distance.SetFont(self.st_distance.GetFont().Bold())
-        tod_box_vbox1.Add(self.st_distance, flag=wx.EXPAND)
+        tod_distance_box.Add(self.st_distance, flag=wx.EXPAND)
 
-        tod_box.Add(tod_box_vbox1, flag=wx.EXPAND)
+        tod_box.Add(tod_distance_box, flag=wx.EXPAND)
         # end TOD box > distance -----------------------------------------------
 
         # TOD box > rate -------------------------------------------------------
-        tod_box_vbox2 = wx.BoxSizer(wx.VERTICAL)
+        tod_rate_box = wx.BoxSizer(wx.VERTICAL)
 
         st_ground_speed = wx.StaticText(panel, label="Ground Speed")
-        tod_box_vbox2.Add(st_ground_speed, flag=wx.ALIGN_CENTRE_HORIZONTAL)
+        tod_rate_box.Add(st_ground_speed, flag=wx.ALIGN_CENTRE_HORIZONTAL)
 
         self.tc_ground_speed = wx.TextCtrl(panel, style=wx.TE_CENTRE)
         self.tc_ground_speed.Bind(wx.EVT_TEXT, self.update_tod_rate)
-        tod_box_vbox2.Add(self.tc_ground_speed,
+        tod_rate_box.Add(self.tc_ground_speed,
                           flag=wx.EXPAND|wx.LEFT|wx.BOTTOM|wx.RIGHT, border=5)
 
         self.st_descent_rate = wx.StaticText(panel, label="Descent Rate")
-        tod_box_vbox2.Add(self.st_descent_rate, flag=wx.ALIGN_CENTRE_HORIZONTAL)
+        tod_rate_box.Add(self.st_descent_rate, flag=wx.ALIGN_CENTRE_HORIZONTAL)
 
         self.st_fpm = wx.StaticText(panel, style=wx.ALIGN_CENTRE_HORIZONTAL| \
                                     wx.ST_NO_AUTORESIZE)
         self.st_fpm.SetFont(self.st_fpm.GetFont().Bold())
-        tod_box_vbox2.Add(self.st_fpm, flag=wx.EXPAND)
+        tod_rate_box.Add(self.st_fpm, flag=wx.EXPAND)
 
-        tod_box.Add(tod_box_vbox2, flag=wx.EXPAND)
+        tod_box.Add(tod_rate_box, flag=wx.EXPAND)
+        # end TOD box > rate ---------------------------------------------------
 
         hbox1.Add(tod_box, flag=wx.EXPAND|wx.LEFT, border=10)
-        # end TOD box > rate ---------------------------------------------------
         # end TOD box ----------------------------------------------------------
 
         vbox.Add(hbox1, flag=wx.EXPAND|wx.ALL, border=10)
