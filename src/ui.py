@@ -176,27 +176,6 @@ class SquawkGUI(wx.Frame):
         self.Layout()
 
 
-    def _update_tod_distance(self, event):
-        event.Skip()
-        focus = wx.Window.FindFocus()
-        selection = focus.GetSelection()
-        try:
-            angle = int(self.tc_descent_angle.GetValue())
-            current_alt = int(self.tc_current_altitude.GetValue())
-            target_alt = int(self.tc_target_altitude.GetValue())
-        except:
-            angle = 0
-            current_alt = 0
-            target_alt = 0
-        distance = tod_calc_distance(current_alt, target_alt, angle)
-        if distance > 0:
-            self.st_distance.SetLabel(f"{distance:.1f} nm")
-        else:
-            self.st_distance.SetLabel('')
-        focus.SetSelection(*selection)
-        self.Layout()
-
-
     def _update_tod_rate(self, event):
         event.Skip()
         focus = wx.Window.FindFocus()
@@ -218,8 +197,29 @@ class SquawkGUI(wx.Frame):
 
 
     def update_tod(self, event):
-        self._update_tod_distance(event)
+        event.Skip()
+        focus = wx.Window.FindFocus()
+        selection = focus.GetSelection()
+        fields = {
+            "angle": self.tc_descent_angle.GetValue(),
+            "ground_speed": self.tc_ground_speed.GetValue(),
+            "current_alt": self.tc_current_altitude.GetValue(),
+            "target_alt": self.tc_target_altitude.GetValue()
+        }
+        for k, v in fields.items():
+            try:
+                fields[k] = int(v)
+            except:
+                fields[k] = 0
+        distance = tod_calc_distance(fields["current_alt"],
+                                     fields["target_alt"],
+                                     fields["angle"])
+        self.st_distance.SetLabel(f"{distance:.1f} nm" if distance > 0 else "")
+
         self._update_tod_rate(event)
+
+        focus.SetSelection(*selection)
+        self.Layout()
 
 
     def update_metar(self,event):
